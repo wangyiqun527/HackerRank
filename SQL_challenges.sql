@@ -59,3 +59,53 @@ if(P is null, 'Root', if(N in (select P from BST), 'Inner','Leaf')) from BST ord
 SET @number = 21;
 SELECT REPEAT('* ', @number := @number-1) FROM information_schema.tables LIMIT 20;
 
+-- Interviews: 
+-- Samantha interviews many candidates from different colleges using coding challenges and contests. 
+-- Write a query to print the contest_id, hacker_id, name, and the sums of total_submissions, 
+--total_accepted_submissions, total_views, and total_unique_views for each contest sorted by contest_id. 
+-- Exclude the contest from the result if all four sums are 0.
+-- Note: A specific contest can be used to screen candidates at more than one college, 
+-- but each college only holds  screening contest.
+SELECT con.contest_id, con.hacker_id, con.name, 
+SUM(sg.total_submissions) as s1, 
+SUM(sg.total_accepted_submissions)  as s2, 
+SUM(vg.total_views) as s3, 
+SUM(vg.total_unique_views) as s4
+FROM Contests AS con
+JOIN Colleges AS col ON con.contest_id = col.contest_id
+JOIN Challenges AS cha ON cha.college_id = col.college_id
+LEFT JOIN
+(SELECT ss.challenge_id, 
+ SUM(ss.total_submissions) AS total_submissions, 
+ SUM(ss.total_accepted_submissions) total_accepted_submissions 
+FROM Submission_Stats AS ss GROUP BY ss.challenge_id) AS sg
+ON cha.challenge_id = sg.challenge_id
+LEFT JOIN
+(SELECT vs.challenge_id, 
+ SUM(vs.total_views) AS total_views, 
+ SUM(vs.total_unique_views) AS total_unique_views
+FROM View_Stats AS vs GROUP BY vs.challenge_id) AS vg
+ON cha.challenge_id = vg.challenge_id
+GROUP BY con.contest_id, con.hacker_id, con.name
+HAVING s1+s2+s3+s4 > 0
+ORDER BY con.contest_id;
+                         
+-- Advanced join
+--15 Days of Learning SQL
+-- Write a query to print total number of unique hackers who made at least submission each day (starting on the first day of the contest), and find the hacker_id and name of the hacker who made maximum number of submissions each day. If more than one such hacker has a maximum number of submissions, print the lowest hacker_id. The query should print this information for each day of the contest, sorted by the date.
+select 
+submission_date, 
+(select count(distinct hacker_id) from submissions s2
+  where s2.submission_date = s1.submission_date and
+   (select count(distinct s3.submission_date)
+    from submissions s3 where s3.hacker_id = s2.hacker_id
+         and s3.submission_date < s1. submission_date)
+    = datediff(s1.submission_date, '2016-03-01')), 
+(select hacker_id from submissions s2 
+  where s2.submission_date = s1. submission_date
+   group by hacker_id
+   order by count(submission_id) desc, hacker_id limit 1) tmp, (select name from hackers where hacker_id = tmp)
+from (select distinct submission_date from submissions) s1
+group by 1;
+
+
