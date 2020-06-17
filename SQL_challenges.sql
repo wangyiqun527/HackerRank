@@ -1,6 +1,7 @@
 -- Select cities that begins with or ends with vowels.
 select distinct city from station where city regexp "^(a|e|i|o|u)" and city regexp "(a|e|i|o|u)$";
 
+-- right(string, n) Extract n characters from a string (starting from right)
 select name from students where marks > 75 order by right(name,3), ID ;
 
 select round(sqrt(power((max(LAT_N)-min(LAT_N)),2)+power((max(LONG_W)-min(LONG_W)),2)),4) from station;
@@ -25,13 +26,13 @@ WHERE t.rowIndex IN (FLOOR(@rowIndex / 2), CEIL(@rowIndex / 2));
 -- symmetric pairs:
 select x, y from functions f1 
     where exists(select * from functions f2 where f2.y=f1.x 
-    and f2.x=f1.y and f2.x>f1.x) and (x!=y) 
+                 and f2.x=f1.y and f2.x>f1.x) and (x!=y) 
 union 
 select x, y from functions f1 where x=y and 
     ((select count(*) from functions where x=f1.x and y=f1.x)>1)    
 order by x;
 
---
+-- OCCUPATION
 SET @r1=0, @r2=0, @r3 =0, @r4=0;
 SELECT MIN(Doctor), MIN(Professor), MIN(Singer), MIN(Actor) FROM
 (SELECT CASE Occupation WHEN 'Doctor' THEN @r1:=@r1+1
