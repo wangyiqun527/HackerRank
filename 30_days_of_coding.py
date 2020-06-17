@@ -12,7 +12,6 @@ print(input_string)
 i = 4
 d = 4.0
 s = 'HackerRank '
-
 # DECLARE second integer, double, and String variables.
 a = 0
 b = 0.0
@@ -51,7 +50,6 @@ print("The total meal cost is " + get_total_cost_of_meal() + " dollars.")
 
 
 # DAY 9: RECURSION
-
 def factorial(n):
     if n==0:
         return 1
@@ -63,7 +61,6 @@ print(factorial(int(input())))
  
 # DAY 10: Binary Numbers
 # Given a base-10 number, convert it to base-2, and find maximum number of consecutive 1's.
-
 print(len(max(bin(int(input().strip()))[2:].split('0'))))
 
 # or:
@@ -94,7 +91,6 @@ for i in range(len(arr)-2):
         hourglass=arr[i][j]+arr[i][j+1]+arr[i][j+2]+arr[i+1][j+1]+arr[i+2][j]+arr[i+2][j+1]+arr[i+2][j+2]
         if hourglass>c:
             c=hourglass
-
 print(c) 
     
 # or:
@@ -103,7 +99,7 @@ for x in range(0, 4):
     for y in range(0, 4):
         s = sum(arr[x][y:y+3]) + arr[x+1][y+1] + sum(arr[x+2][y:y+3])
         res.append(s)
-
+	
 print(max(res))
 
 
