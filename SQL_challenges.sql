@@ -93,14 +93,13 @@ ORDER BY con.contest_id;
                          
 -- Advanced join
 --15 Days of Learning SQL
--- Write a query to print total number of unique hackers who made at least submission each day (starting on the first day of the contest), and find the hacker_id and name of the hacker who made maximum number of submissions each day. If more than one such hacker has a maximum number of submissions, print the lowest hacker_id. The query should print this information for each day of the contest, sorted by the date.
+-- Write a query to print total number of unique hackers who made at least 1 submission each day (starting on the 1st day of the contest), and find the hacker_id and name of the hacker who made maximum number of submissions each day. If more than one such hacker has a maximum number of submissions, print the lowest hacker_id. The query should print this information for each day of the contest, sorted by the date.
 select 
 submission_date, 
-(select count(distinct hacker_id) from submissions s2
+(select count(distinct hacker_id) from submissions s2 -- table with hackers who consecutively submit
   where s2.submission_date = s1.submission_date and
-   (select count(distinct s3.submission_date)
-    from submissions s3 where s3.hacker_id = s2.hacker_id
-         and s3.submission_date < s1. submission_date)
+   (select count(distinct s3.submission_date) from submissions s3 
+    where s3.hacker_id = s2.hacker_id and s3.submission_date < s1. submission_date)
     = datediff(s1.submission_date, '2016-03-01')), 
 (select hacker_id from submissions s2 
   where s2.submission_date = s1. submission_date
