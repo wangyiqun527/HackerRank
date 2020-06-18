@@ -103,7 +103,6 @@ for x in range(0, 4):
 print(max(res))
 
 
-
 # DAY 12: # Class Inheritance 
 class Person:
 	def __init__(self, firstName, lastName, idNumber):
@@ -159,7 +158,7 @@ print("Grade:", s.calculate())
 
 
 # DAY 13: # abstract class
-#Write MyBook class
+# Write MyBook class
 class MyBook:
     price = 0
     def __init__(self, title, author, price):
@@ -186,7 +185,7 @@ new_novel.display()
 class Difference:
     def __init__(self, a):
         self.__elements = a
-    # Add your code here
+    
     def computeDifference(self):
         self.maximumDifference = max(a) - min(a) 
         
@@ -196,7 +195,6 @@ a = [int(e) for e in input().split(' ')]
 
 d = Difference(a)
 d.computeDifference()
-
 print(d.maximumDifference) 
 
 # or:
@@ -533,3 +531,13 @@ elif y1==y2:
 elif y1<y2:
     print(0)    
   
+# DAY 19: Interfaces
+class AdvancedArithmetic(object):
+    def divisorSum(n):
+        raise NotImplementedError
+
+class Calculator(AdvancedArithmetic):
+    def divisorSum(self, n):
+        devisors = [i for i in range(1,n+1) if n%i==0]
+        return(sum(devisors))
+
